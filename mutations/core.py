@@ -42,7 +42,7 @@ class MutationBase(type):
 class Mutation(object):
     def __init__(self, name, inputs=None):
         if self.loop is None:
-            loop = get_event_loop()
+            self.loop = get_event_loop()
 
         self.name = name
         self.inputs = inputs or {}
