@@ -122,7 +122,7 @@ class Mutation(object):
             else:
                 return Result(success=False, return_value=None, errors=error_dict)
         if iscoroutine(instance.execute):
-            result =  instance.loop.run_until_complete(instance.execute)
+            result =  instance.loop.run_until_complete(instance.execute())
         else:
             result = instance.execute()
         return Result(success=True, return_value=result, errors=None)
