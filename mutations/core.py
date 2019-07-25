@@ -40,10 +40,10 @@ class MutationBase(type):
 
 @six.add_metaclass(MutationBase)
 class Mutation(object):
-    def __init__(self, name, inputs=None, loop=None):
+    def __init__(self, name, inputs=None):
 
-        if self.loop is None:
-            self.loop = get_event_loop()
+        # if self.loop is None:
+        #     self.loop = get_event_loop()
 
         self.name = name
         self.inputs = inputs or {}
@@ -117,6 +117,10 @@ class Mutation(object):
         instance = cls(cls.__name__, inputs = kwargs)
         is_valid, error_dict = instance._validate()
 
+        loop = get_event_loop()
+
+
+
         if not is_valid:
             if raise_on_error:
                 raise error.MutationFailedValidationError(error_dict)
@@ -124,7 +128,7 @@ class Mutation(object):
                 return Result(success=False, return_value=None, errors=error_dict)
         print(f"iscoroutine(instance.execute) {iscoroutine(instance.execute)}")
         if iscoroutine(instance.execute):
-            result =  instance.loop.run_until_complete(wait(instance.execute()))
+            result =  loop.run_until_complete(wait(instance.execute()))
             print(f"asycn result {result}")
         else:
             result = instance.execute()
