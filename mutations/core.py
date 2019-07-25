@@ -121,8 +121,10 @@ class Mutation(object):
                 raise error.MutationFailedValidationError(error_dict)
             else:
                 return Result(success=False, return_value=None, errors=error_dict)
+        print(f"iscoroutine(instance.execute) {iscoroutine(instance.execute)}")
         if iscoroutine(instance.execute):
             result =  instance.loop.run_until_complete(instance.execute())
+            print(f"asycn result {result}")
         else:
             result = instance.execute()
         return Result(success=True, return_value=result, errors=None)
