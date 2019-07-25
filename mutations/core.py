@@ -40,7 +40,8 @@ class MutationBase(type):
 
 @six.add_metaclass(MutationBase)
 class Mutation(object):
-    def __init__(self, name, inputs=None):
+    def __init__(self, name, inputs=None, loop=None):
+
         if self.loop is None:
             self.loop = get_event_loop()
 
