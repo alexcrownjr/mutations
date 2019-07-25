@@ -18,7 +18,7 @@ setup(
     author=md['author'],
     author_email=md['authoremail'],
     packages=['mutations'],
-    url="http://github.com/omarish/mutations",
+    url="https://github.com/alexcrownjr/mutations.git",
     license='MIT',
     description='Encapsulate your business logic in command classes.',
     long_description=long_description,

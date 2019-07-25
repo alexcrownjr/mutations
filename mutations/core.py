@@ -1,4 +1,5 @@
 from collections import namedtuple, defaultdict
+from asyncio import Future, get_event_loop, iscoroutine, wait
 import six
 
 from . import fields
@@ -40,6 +41,9 @@ class MutationBase(type):
 @six.add_metaclass(MutationBase)
 class Mutation(object):
     def __init__(self, name, inputs=None):
+        if self.loop is None:
+            loop = get_event_loop()
+
         self.name = name
         self.inputs = inputs or {}
 
@@ -117,8 +121,10 @@ class Mutation(object):
                 raise error.MutationFailedValidationError(error_dict)
             else:
                 return Result(success=False, return_value=None, errors=error_dict)
-
-        result = instance.execute()
+        if iscoroutine(instance.execute):
+            result =  instance.loop.run_until_complete(instance.execute)
+        else:
+            result = instance.execute()
         return Result(success=True, return_value=result, errors=None)
 
     @classmethod
