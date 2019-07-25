@@ -123,7 +123,7 @@ class Mutation(object):
                 return Result(success=False, return_value=None, errors=error_dict)
         print(f"iscoroutine(instance.execute) {iscoroutine(instance.execute)}")
         if iscoroutine(instance.execute):
-            result =  instance.loop.run_until_complete(instance.execute())
+            result =  instance.loop.run_until_complete(wait(instance.execute()))
             print(f"asycn result {result}")
         else:
             result = instance.execute()
