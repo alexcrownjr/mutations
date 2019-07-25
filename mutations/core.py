@@ -132,7 +132,7 @@ class Mutation(object):
         #     print(f"asycn result {result}")
         # else:
         #     result = instance.execute()
-        result =  loop.run_until_complete(wait(instance.execute()))
+        result =  loop.run_until_complete(instance.execute())
         return Result(success=True, return_value=result, errors=None)
 
     @classmethod
